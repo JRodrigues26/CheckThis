@@ -1,6 +1,6 @@
 package checkers;
 
-public interface CheckerProprieties {
+public interface CheckerState {
 
     boolean isDead();
     boolean canKill();

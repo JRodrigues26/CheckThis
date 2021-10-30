@@ -1,28 +1,49 @@
-import java.io.IOException;
-import java.io.PrintWriter;
+import Colors.Colors;
+import org.academiadecodigo.bootcamp.Prompt;
+import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
+
+import java.io.*;
 import java.net.Socket;
 
-public class Player implements Runnable{
-
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
+public class Player {
 
     private Socket playerSocket;
+    private Board gameboard;
 
-    public Player(Socket socket) {
-        playerSocket = socket;
+    private PrintWriter out;
+    private Prompt prompt;
+    private String name;
+    private PrintStream printStream;
+
+    public Player(Socket socket, Board gameboard) {
         try {
+            this.playerSocket = socket;
+            this.gameboard = gameboard;
 
-            PrintWriter out = new PrintWriter(this.playerSocket.getOutputStream(), true);
-            out.println(ANSI_CYAN_BACKGROUND+"This text has a green background and red text!"+ANSI_RESET);
-
+            this.printStream = new PrintStream(this.playerSocket.getOutputStream()); // to send messages to the player terminal
+            this.out = new PrintWriter(this.playerSocket.getOutputStream(), true);
+            this.prompt = new Prompt(this.playerSocket.getInputStream(), printStream);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    @Override
-    public void run() {
 
+
+
+    public synchronized void setName() throws IOException {
+        StringInputScanner question1 = new StringInputScanner();
+        question1.setMessage("whats your name" + "\n");
+        String name = prompt.getUserInput(question1);
+        this.name = name;
+        System.out.println(name);
+    }
+
+
+    public void play() {
+        StringInputScanner question = new StringInputScanner();
+        question.setMessage("whats your move " + name + "?" + "\n");
+        String move = prompt.getUserInput(question);
     }
 }
+
