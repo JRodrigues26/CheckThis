@@ -2,6 +2,9 @@ import checkers.BlackChecker;
 import checkers.Checker;
 import checkers.WhiteChecker;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.concurrent.ExecutorService;
@@ -19,15 +22,19 @@ public class Game implements Runnable {
     private LinkedList<Checker> player2Checkers;
 
 
+
+
     public Game(Socket player1S, Socket player2S) {
-        System.err.println("GAME STARTING");
+        System.err.println("CREATING NEW GAME");
         playerTurn = false;
         playersPool = Executors.newCachedThreadPool();
         player1 = new Player(player1S, this.gameBoard);
         player2 = new Player(player2S, this.gameBoard);
-        gameBoard = new Board();
+        gameBoard = new Board(player1S, player2S);
         player1Checkers = new LinkedList<>();
         player2Checkers = new LinkedList<>();
+
+
         addCheckers();
     }
 
@@ -54,21 +61,27 @@ public class Game implements Runnable {
         gameBoard.draw();
     }
 
-    public void movePiece(Checker checker){
-        checker.setCol();
-        checker.
+    public void movePiece(Checker checker) {
+
     }
 
 
     @Override
     public void run() {
-        init();
-        while (!gameOver) {
+        try {
+            System.err.println("INITIATING GAME");
+            player1.setName();
+            player2.setName();
+            init();
+            while (!gameOver) {
 
-            playersPool.submit(player1);
-            playersPool.submit(player2);
+                player1.play();
+                player2.play();
 
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
     }
 }
