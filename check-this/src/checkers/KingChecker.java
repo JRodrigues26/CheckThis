@@ -1,4 +1,4 @@
-package ladies;
+package checkers;
 
-public class KingLadie {
+public class KingChecker {
 }

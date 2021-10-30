@@ -1,4 +1,4 @@
-package ladies;
+package checkers;
 
-public class Ladie extends .ad {
+public class Checker {
 }
