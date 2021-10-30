@@ -2,14 +2,16 @@ package checkers;
 
 public class Checker implements CheckerProprieties {
 
-    String name;
-    String color;
-    private CheckerPosition position[][];
+    private String name;
+    private String color;
+    private int x;
+    private int y;
 
-    public Checker(String name, String color, CheckerPosition position[][]){
+    public Checker(String name, String color, int x, int y){
         this.name = name;
         this.color = color;
-        this.position = position;
+        this.x = x;
+        this.y = y;
     }
 
 
