@@ -1,3 +1,4 @@
+import Colors.Colors;
 import checkers.Checker;
 
 import java.util.LinkedList;
@@ -12,31 +13,37 @@ public class Board {
     public Board() {
         int paint = 0;
         board = new String[BOARD_LENGHT][BOARD_LENGHT];
-        for (int y = 0; y < BOARD_LENGHT; y++) {
+        for (int col = 0; col < BOARD_LENGHT; col++) {
             paint++;
-            for (int x = 0; x < BOARD_LENGHT; x++) {
+            for (int row = 0; row < BOARD_LENGHT; row++) {
                 paint++;
                 if(!(paint % 2 == 0)){
-                        board[x][y] = Colors.RED_BACKGROUND + "   " + Colors.RESET;
+                        board[col][row] = Colors.RED_BACKGROUND + "   " + Colors.RESET;
                 } else
-                board[x][y] = Colors.WHITE_BACKGROUND_BRIGHT + "   " + Colors.RESET;
+                board[col][row] = Colors.WHITE_BACKGROUND_BRIGHT + "   " + Colors.RESET;
             }
         }
     }
 
     public void draw() {
-        for (int y = 0; y < board.length; y++) {
-            System.out.println();
-            for (int x = 0; x < board.length; x++) {
-                System.out.print(board[x][y]);
+        System.out.println("   A  B  C  D  E  F  G  H");
+        for (int row = 0; row < BOARD_LENGHT; row++) {
+            System.out.print((row + 1) + " ");
+            for (int col = 0; col < BOARD_LENGHT; col++) {
+                System.out.print(board[col][row]);
             }
+            System.out.println();
         }
     }
 
-    public void setPiece(LinkedList<Checker> list){
+    public void setPieces(LinkedList<Checker> list){
         for (Checker checker : list){
-            board[checker.getX()][checker.getY()] = Colors.RED_BACKGROUND + checker.getCheckerColor() + Colors.RESET;
+            board[checker.getCol()][checker.getRow()] = Colors.RED_BACKGROUND + checker.getCheckerColor() + Colors.RESET;
         }
+
+    }
+
+    public void movePiece(Checker checker){
 
     }
 }

@@ -1,29 +1,40 @@
 package checkers;
 
-public class Checker implements CheckerState {
+public abstract class Checker implements CheckerState {
 
 
     private String checkerColor;
-    private int x;
-    private int y;
+    private int col;
+    private int row;
 
-    public Checker(CheckerColor color, int x, int y){
+    public Checker(CheckerColor color, int col, int row) {
         this.checkerColor = color.getColor();
-        this.x = x;
-        this.y = y;
+        this.col = col;
+        this.row = row;
     }
 
-    public int getX() {
-        return x;
+    public int getCol() {
+        return col;
     }
 
-    public int getY() {
-        return y;
+    public int getRow() {
+        return row;
     }
 
-    public String getCheckerColor(){
+    public void setCol(int col) {
+        this.col = col;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public String getCheckerColor() {
         return this.checkerColor;
     }
+
+    public abstract void move();
+
 
     //---// Interface Checker States //---//
     @Override

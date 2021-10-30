@@ -36,7 +36,6 @@ public class Server {
             if ((clientsSockets.size() % 2) == 0) {
                 System.err.println("WE CAN NOW START A NEW GAME");
                 gamePool.submit(new Game(clientsSockets.get(clientsSockets.size()-1), clientsSockets.get(clientsSockets.size()-2)));
-                System.err.println("WAITING FOR MORE CLIENTS");
             }else {
                 try {
                     PrintWriter out = new PrintWriter(this.clientSocket.getOutputStream(), true);

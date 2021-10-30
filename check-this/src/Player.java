@@ -1,20 +1,22 @@
+import Colors.Colors;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
 public class Player implements Runnable{
 
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
-
     private Socket playerSocket;
+    private Board gameboard;
 
-    public Player(Socket socket) {
+    public Player(Socket socket, Board gameboard) {
         playerSocket = socket;
+        this.gameboard = gameboard;
+
         try {
 
             PrintWriter out = new PrintWriter(this.playerSocket.getOutputStream(), true);
-            out.println(ANSI_CYAN_BACKGROUND+"This text has a green background and red text!"+ANSI_RESET);
+            out.println(Colors.CYAN_BACKGROUND_BRIGHT+"This text has a green background and red text!"+ Colors.RESET);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -22,7 +24,9 @@ public class Player implements Runnable{
     }
 
     @Override
-    public void run() {
+    public synchronized void run() {
+
+
 
     }
 }
