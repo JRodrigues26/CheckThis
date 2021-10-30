@@ -2,8 +2,8 @@ package checkers;
 
 public enum CheckerColor {
 
-    WHITE("White"),
-    BLACK("Black");
+    WHITE("W"),
+    BLACK("B");
 
     String color;
 

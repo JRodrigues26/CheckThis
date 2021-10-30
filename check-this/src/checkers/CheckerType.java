@@ -5,13 +5,13 @@ public enum CheckerType {
     NORMAL("Checker"),
     KING("King Checker");
 
-    String name;
+    String symbol;
 
     CheckerType(String name){
-        this.name = name;
+        this.symbol = symbol;
     }
 
     public String getName() {
-        return name;
+        return this.symbol;
     }
 }

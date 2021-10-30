@@ -12,8 +12,10 @@ public class Player implements Runnable{
     public Player(Socket socket) {
         playerSocket = socket;
         try {
+
             PrintWriter out = new PrintWriter(this.playerSocket.getOutputStream(), true);
             out.println(ANSI_CYAN_BACKGROUND+"This text has a green background and red text!"+ANSI_RESET);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
