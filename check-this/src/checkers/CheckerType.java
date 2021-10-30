@@ -2,12 +2,14 @@ package checkers;
 
 public enum CheckerType {
 
-    NORMAL("Checker"),
-    KING("King Checker");
+    NORMAL_WHITE("W"),
+    NORMAL_BLACK("B");
+
+    //KING("King Checker");
 
     String symbol;
 
-    CheckerType(String name){
+    CheckerType(String symbol){
         this.symbol = symbol;
     }
 

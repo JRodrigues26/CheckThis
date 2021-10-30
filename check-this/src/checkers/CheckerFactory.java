@@ -1,32 +1,20 @@
 package checkers;
 
-public class CheckerFactory {
-
-    private CheckerType checker;
-    private CheckerColor color;
-    private int x;
-    private int y;
-
-    public CheckerFactory(CheckerType checker, CheckerColor color, int x, int y){
-        this.checker = checker;
-        this.color = color;
-        this.x = x;
-        this.y =y;
-    }
+public class CheckerFactory{
 
     //---// Return a new Checker whit name, color and starting position//---//
 
-    public Checker createChecker() {
+    public Checker createChecker(CheckerType checker) {
 
         switch (checker){
 
-            case NORMAL:{
-                return new NormalChecker(checker.getName(), color.getColor(), x, y);
+            case NORMAL_WHITE, NORMAL_BLACK:{
+                return new NormalChecker(checker.getName());
             }
-
+            /*
             case KING:{
                 return new KingChecker(checker.getName(), color.getColor(), x, y);
-            }
+            }*/
         }
 
         return null;

@@ -1,13 +1,18 @@
 import checkers.Checker;
-import checkers.CheckerColor;
-
-import java.awt.*;
+import checkers.CheckerFactory;
+import checkers.CheckerType;
 
 public class Board {
 
     private String[][] board;
+    private CheckerFactory checkerFactory = new CheckerFactory();
+    private Checker[] blackCheckers = new Checker[12];
+    private Checker[] whiteCheckers = new Checker[12];
 
     public Board() {
+
+        int blackCount = 0;
+        int whiteCount = 0;
         int paint = 0;
         board = new String[8][8];
         for (int x = 0; x < board.length; x++) {
@@ -15,7 +20,24 @@ public class Board {
             for (int y = 0; y < board.length; y++) {
                 paint++;
                 if(!(paint % 2 == 0)){
+
+                    if(x<=3 && blackCount<blackCheckers.length){
+                        blackCheckers[blackCount] = checkerFactory.createChecker(CheckerType.NORMAL_BLACK);
+                        board[x][y] = Colors.RED_BACKGROUND + "[" + blackCheckers[blackCount].getName() + "]" + Colors.RESET;
+                        blackCount++;
+                    }
+
+                    else if(x>=5 && whiteCount<whiteCheckers.length){
+                        whiteCheckers[whiteCount] = checkerFactory.createChecker(CheckerType.NORMAL_WHITE);
+                        board[x][y] = Colors.RED_BACKGROUND + "[" + whiteCheckers[whiteCount].getName() + "]" + Colors.RESET;
+                        whiteCount++;
+                    }
+
+                    else{
                         board[x][y] = Colors.RED_BACKGROUND + "[ ]" + Colors.RESET;
+                    }
+
+
                 } else
                 board[x][y] = "[ ]";
             }
@@ -29,14 +51,5 @@ public class Board {
                 System.out.print(board[x][y]);
             }
         }
-    }
-
-    public void setPiece(int x, int y, CheckerColor ){
-        if(color == CheckerColor.WHITE) {
-            board[x][y] = Colors.RED_BACKGROUND + "[W]" + Colors.RESET;
-        } else {
-            board[x][y] = Colors.RED_BACKGROUND + "[B]" + Colors.RESET;
-        }
-
     }
 }
