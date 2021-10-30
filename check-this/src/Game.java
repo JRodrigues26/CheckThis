@@ -7,33 +7,21 @@ public class Game implements Runnable {
 
     private Player player1;
     private Player player2;
-    private LinkedList<Socket> playersSockets;
     private ExecutorService playersPool;
 
-    public Game(LinkedList list) {
-        playersSockets = list;
+    public Game(Socket player1S, Socket player2S) {
         playersPool = Executors.newCachedThreadPool();
+        player1 = new Player(player1S);
+        player2 = new Player(player2S);
     }
 
     public void init() {
-        player1 = new Player(playersSockets.get(0));
-        player2 = new Player(playersSockets.get(1));
+
     }
 
 
     @Override
     public void run() {
-        while (true) {
-            try {
-                Thread.sleep(5000);
-                System.err.println("Runninngg");
-
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-
-        }
+        init();
     }
 }

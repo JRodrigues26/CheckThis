@@ -2,7 +2,7 @@ package checkers;
 
 public interface CheckerProprieties {
 
-    public boolean isDead();
-    public boolean canKill();
-    public boolean canMove();
+    boolean isDead();
+    boolean canKill();
+    boolean canMove();
 }
