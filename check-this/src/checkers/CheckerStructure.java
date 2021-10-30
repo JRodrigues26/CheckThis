@@ -1,4 +1,4 @@
-package ladies;
+package checkers;
 
-public interface LadiesStructure {
+public interface CheckerStructure {
 }
