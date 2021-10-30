@@ -44,6 +44,5 @@ public class Board {
     }
 
     public void movePiece(Checker checker){
-
     }
 }

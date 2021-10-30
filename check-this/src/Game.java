@@ -55,8 +55,7 @@ public class Game implements Runnable {
     }
 
     public void movePiece(Checker checker){
-        checker.setCol();
-        checker.
+
     }
 
 
