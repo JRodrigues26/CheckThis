@@ -29,11 +29,9 @@ public class Board {
                 System.out.print(board[x][y]);
             }
         }
-
     }
 
-    public void drawPiece(){
-
+    public void setPiece(int x, int y, CheckerColor ){
         if(color == CheckerColor.WHITE) {
             board[x][y] = Colors.RED_BACKGROUND + "[W]" + Colors.RESET;
         } else {
