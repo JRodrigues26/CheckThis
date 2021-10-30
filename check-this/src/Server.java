@@ -1,4 +1,4 @@
-import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedList;
@@ -16,7 +16,6 @@ public class Server {
         try {
 
             System.err.println("SERVER OPEN");
-            System.err.println("WAITING FOR CLIENTS");
             serverSocket = new ServerSocket(port);
             clientsSockets = new LinkedList<>();
             gamePool = Executors.newCachedThreadPool();
@@ -36,12 +35,16 @@ public class Server {
 
             if ((clientsSockets.size() % 2) == 0) {
                 System.err.println("WE CAN NOW START A NEW GAME");
-                gamePool.submit(new Game(clientsSockets));
-                clientsSockets.clear();
-
+                gamePool.submit(new Game(clientsSockets.get(clientsSockets.size()-1), clientsSockets.get(clientsSockets.size()-2)));
+                System.err.println("WAITING FOR MORE CLIENTS");
+            }else {
+                try {
+                    PrintWriter out = new PrintWriter(this.clientSocket.getOutputStream(), true);
+                    out.println("Waiting for another player");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-
-
         }
     }
 

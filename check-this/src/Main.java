@@ -1,6 +1,3 @@
-import org.academiadecodigo.bootcamp.Prompt;
-
-import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
 
 public class Main {
 
@@ -8,16 +5,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-       /* Prompt prompt = new Prompt(System.in, System.out);
+     Server testServer = new Server(DEFAULT_PORT);
 
-        StringInputScanner question1 = new StringInputScanner();
-        question1.setMessage("What is your name?");
-
-        String name = prompt.getUserInput(question1);*/
-
-        Server server = new Server(DEFAULT_PORT);
-        server.openServer();
-
+     testServer.openServer();
 
     }
 }
