@@ -19,7 +19,6 @@ public class Board {
 
     public Board(Socket player1, Socket player2) {
         try {
-
             player1Socket = player1;
             player2Socket = player2;
 
@@ -34,8 +33,9 @@ public class Board {
                     paint++;
                     if (!(paint % 2 == 0)) {
                         board[col][row] = Colors.RED_BACKGROUND + "   " + Colors.RESET;
-                    } else
-                        board[col][row] = Colors.WHITE_BACKGROUND_BRIGHT + "   " + Colors.RESET;
+                    }
+                    board[col][row] = Colors.WHITE_BACKGROUND_BRIGHT + "   " + Colors.RESET;
+
                 }
             }
         } catch (IOException e) {
@@ -55,31 +55,22 @@ public class Board {
     }
 
     public void draw() {
-
-
-
         System.out.println("   A  B  C  D  E  F  G  H");
         println("   A  B  C  D  E  F  G  H");
-
 
         for (int row = 0; row < BOARD_LENGHT; row++) {
             System.out.print((row + 1) + " ");
             print((row + 1) + " ");
 
-
             for (int col = 0; col < BOARD_LENGHT; col++) {
                 System.out.print(board[col][row]);
-
                 print(board[col][row]);
-
             }
             System.out.print(" " + (row + 1));
             print(" " + (row + 1));
 
-
             System.out.println();
             println("");
-
         }
         System.out.println("   A  B  C  D  E  F  G  H");
         println("   A  B  C  D  E  F  G  H");

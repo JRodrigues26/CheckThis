@@ -1,4 +1,3 @@
-import Colors.Colors;
 import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
 
@@ -19,17 +18,13 @@ public class Player {
         try {
             this.playerSocket = socket;
             this.gameboard = gameboard;
-
-            this.printStream = new PrintStream(this.playerSocket.getOutputStream()); // to send messages to the player terminal
+            this.printStream = new PrintStream(this.playerSocket.getOutputStream()); // to print messages to the player terminal
             this.out = new PrintWriter(this.playerSocket.getOutputStream(), true);
             this.prompt = new Prompt(this.playerSocket.getInputStream(), printStream);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
-
 
     public synchronized void setName() throws IOException {
         StringInputScanner question1 = new StringInputScanner();
@@ -39,10 +34,15 @@ public class Player {
         System.out.println(name);
     }
 
+    public String newCoordinates(){
+
+    }
+
+
 
     public void play() {
         StringInputScanner question = new StringInputScanner();
-        question.setMessage("whats your move " + name + "?" + "\n");
+        question.setMessage("Your turn " + name + "?" + "\n");
         String move = prompt.getUserInput(question);
     }
 }

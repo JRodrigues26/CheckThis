@@ -61,6 +61,10 @@ public class Game implements Runnable {
         gameBoard.draw();
     }
 
+    public void sendMessage(){
+
+    }
+
     public void movePiece(Checker checker) {
 
     }
@@ -73,6 +77,7 @@ public class Game implements Runnable {
             player1.setName();
             player2.setName();
             init();
+
             while (!gameOver) {
 
                 player1.play();
