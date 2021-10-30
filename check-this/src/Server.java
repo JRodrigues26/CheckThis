@@ -16,6 +16,7 @@ public class Server {
         try {
 
             System.err.println("SERVER OPEN");
+            System.err.println("WAITING FOR CLIENTS");
             serverSocket = new ServerSocket(port);
             clientsSockets = new LinkedList<>();
             gamePool = Executors.newCachedThreadPool();
@@ -37,7 +38,7 @@ public class Server {
                 System.err.println("WE CAN NOW START A NEW GAME");
                 gamePool.submit(new Game(clientsSockets));
                 clientsSockets.clear();
-                System.err.println("WAITING FOR MORE CLIENTS");
+
             }
 
 
