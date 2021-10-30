@@ -1,17 +1,29 @@
 package checkers;
 
-public class Checker implements CheckerProprieties {
+public class Checker implements CheckerState {
 
-    String name;
-    String color;
-    private CheckerPosition position[][];
 
-    public Checker(String name, String color, CheckerPosition position[][]){
-        this.name = name;
-        this.color = color;
-        this.position = position;
+    private String checkerColor;
+    private int x;
+    private int y;
+
+    public Checker(CheckerColor color, int x, int y){
+        this.checkerColor = color.getColor();
+        this.x = x;
+        this.y = y;
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public String getCheckerColor(){
+        return this.checkerColor;
+    }
 
     //---// Interface Checker States //---//
     @Override

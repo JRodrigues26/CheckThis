@@ -2,7 +2,7 @@ package checkers;
 
 public class KingChecker extends Checker {
 
-    public KingChecker(String name, String color, CheckerPosition[][] position) {
-        super(name, color, position);
+    public KingChecker(CheckerColor color, int x, int y) {
+        super(color, x, y);
     }
 }
