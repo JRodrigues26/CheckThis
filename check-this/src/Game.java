@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
@@ -22,7 +21,7 @@ public class Game implements Runnable {
 
     public Game(Socket player1S, Socket player2S) {
         System.err.println("CREATING NEW GAME");
-        player1 = new Player(player1S, CheckerColor.WHITE );
+        player1 = new Player(player1S, CheckerColor.WHITE);
         player2 = new Player(player2S, CheckerColor.BLACK);
         gameBoard = new Board(player1S, player2S);
         allCheckers = new LinkedList<>();
@@ -55,19 +54,20 @@ public class Game implements Runnable {
         for (Checker checker : allCheckers) {
             if ((checker.getCol() == BoardPosition.stringToCol(coordinate.split("")[0])) &&
                     (checker.getRow() == Integer.parseInt(coordinate.split("")[1]) - 1)) {
-                    return checker;
+                return checker;
             }
         }
         return null;
     }
 
     public void moveChecker(Checker checker) {
+
         for (Checker checkthis : allCheckers) {
             if (checker.getCol() == checkthis.getCol() && checker.getRow() == checkthis.getRow()) {
-                if(checker.getCheckerColor().equals(CheckerColor.WHITE.getColor())) /*Move White checkers*/{
+                if (checker.getCheckerColor().equals(CheckerColor.WHITE.getColor())) /*Move White checkers*/ {
                     checkthis.setCol(checkthis.getCol() + 1);
                     checkthis.setRow(checkthis.getRow() + 1);
-                }else{ /*Move Black checkers*/
+                } else { /*Move Black checkers*/
                     checkthis.setCol(checkthis.getCol() - 1);
                     checkthis.setRow(checkthis.getRow() - 1);
                 }
@@ -75,14 +75,28 @@ public class Game implements Runnable {
         }
     }
 
+    public Set<String> availableMoves(Checker checker){
+        Set<String> availableMoves = new HashSet<>();
+        int col = checker.getCol();
+        int row = checker.getRow();
+        if (checker.getCheckerColor().equals(CheckerColor.WHITE.getColor())){
+            if()
+
+        } else {
+
+        }
+
+
+    }
 
     public void turn(Player player) {
         player.receiveCheckers();
         Checker checker = StringToChecker(player.chooseChecker());
+        Set<String> availableMoves = availableMoves(checker);
+
+        player.chooseNewPosition(availableMoves);
+
         moveChecker(checker);
-
-        //player.newPosition();
-
         gameBoard.setPieces(allCheckers);
         gameBoard.draw();
     }
@@ -112,7 +126,8 @@ public class Game implements Runnable {
         private Prompt prompt;
         private String name;
         private PrintStream printStream;
-        private Set<String> options;
+        private Set<String> playerCheckersOptions;
+
 
 
         public Player(Socket socket, CheckerColor checkerColor) {
@@ -122,7 +137,9 @@ public class Game implements Runnable {
                 this.printStream = new PrintStream(this.playerSocket.getOutputStream()); // to print messages to the player terminal
                 this.out = new PrintWriter(this.playerSocket.getOutputStream(), true);
                 this.prompt = new Prompt(this.playerSocket.getInputStream(), printStream);
-                this.options = new HashSet<>();
+                this.playerCheckersOptions = new HashSet<>();
+
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -132,10 +149,10 @@ public class Game implements Runnable {
             int row = 0;
             String col = "";
             for (Checker checker : allCheckers) {
-                if(checker.getCheckerColor().equals(this.checkerColor.getColor())) {
+                if (checker.getCheckerColor().equals(this.checkerColor.getColor())) {
                     row = checker.getRow() + 1;
                     col = BoardPosition.colToString(checker.getCol());
-                    options.add(col + row);
+                    this.playerCheckersOptions.add(col + row);
                 }
             }
         }
@@ -149,8 +166,7 @@ public class Game implements Runnable {
         }
 
         public String chooseChecker() {
-
-            StringSetInputScanner question = new StringSetInputScanner(options);
+            StringSetInputScanner question = new StringSetInputScanner(playerCheckersOptions);
             question.setError("You don't have a checker in that position");
             out.print("Your turn " + name + "?" + "\n");
             question.setMessage("Which checker do you want to move?" + "\n");
@@ -158,9 +174,9 @@ public class Game implements Runnable {
             return checkerSelected;
         }
 
-        public String newPosition() {
-
-            StringSetInputScanner question = new StringSetInputScanner(options);
+        public String chooseNewPosition(Set<String> movesAvailable) {
+            StringSetInputScanner question = new StringSetInputScanner(movesAvailable);
+            question.setError("You can't make that move");
             question.setMessage("What is your new position?" + "\n");
             String newPosition = prompt.getUserInput(question);
             return newPosition;
