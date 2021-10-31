@@ -35,13 +35,27 @@ public class Board {
                         board[col][row] = Colors.RED_BACKGROUND + "   " + Colors.RESET;
                     } else {
                         board[col][row] = Colors.WHITE_BACKGROUND_BRIGHT + "   " + Colors.RESET;
-
-
                     }
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void clearBoard(){
+        int paint = 0;
+        board = new String[BOARD_LENGHT][BOARD_LENGHT];
+        for (int col = 0; col < BOARD_LENGHT; col++) {
+            paint++;
+            for (int row = 0; row < BOARD_LENGHT; row++) {
+                paint++;
+                if (!(paint % 2 == 0)) {
+                    board[col][row] = Colors.RED_BACKGROUND + "   " + Colors.RESET;
+                } else {
+                    board[col][row] = Colors.WHITE_BACKGROUND_BRIGHT + "   " + Colors.RESET;
+                }
+            }
         }
     }
 
@@ -80,13 +94,11 @@ public class Board {
     }
 
     public void setPieces(LinkedList<Checker> list) {
+        clearBoard();
         for (Checker checker : list) {
             board[checker.getCol()][checker.getRow()] = Colors.RED_BACKGROUND + checker.getCheckerColor() + Colors.RESET;
         }
 
     }
 
-    public void movePiece(Checker checker) {
-        //checker.setCol();
-    }
 }
