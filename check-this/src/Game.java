@@ -75,114 +75,171 @@ public class Game implements Runnable {
         }
     }
 
-    public Set<String> availableMoves(Checker checker){
+    public Set<String> availableMoves(Checker checker) {
         Set<String> availableMoves = new HashSet<>();
-        int col = checker.getCol();
-        int row = checker.getRow();
-        if (checker.getCheckerColor().equals(CheckerColor.WHITE.getColor())){
-            if()
-
-        } else {
-
-        }
-
-
-    }
-
-    public void turn(Player player) {
-        player.receiveCheckers();
-        Checker checker = StringToChecker(player.chooseChecker());
-        Set<String> availableMoves = availableMoves(checker);
-
-        player.chooseNewPosition(availableMoves);
-
-        moveChecker(checker);
-        gameBoard.setPieces(allCheckers);
-        gameBoard.draw();
-    }
+        String option1;
+        String option2;
+        int count = 0;
+        //Verify if it if white
+        if (checker.getCheckerColor().equals(CheckerColor.WHITE.getColor())) {
+            //Verify it goes out of the board
+            if (checker.getCol() + 1 < Board.BOARD_LENGHT && checker.getRow() + 1 < Board.BOARD_LENGHT) {
+                for (Checker check : allCheckers) {
+                    //Verify for every checker if the next position is occupied
+                    if (!(check.getCol() == checker.getCol() + 1 && check.getRow() == checker.getRow() + 1)) {
+                        continue;
+                    } else if (checker.getCol() + 2 < Board.BOARD_LENGHT && checker.getRow() + 2 < Board.BOARD_LENGHT) {
+                        for (Checker check2 : allCheckers) {
+                            if (!(check2.getCol() == checker.getCol() + 2 && check2.getRow() == checker.getRow() + 2)) {
+                                continue;
+                            } else {
 
 
-    @Override
-    public void run() {
-        System.err.println("INITIATING GAME");
-        player1.setName();
-        player2.setName();
-        init();
+                            }
 
-        while (!gameOver) {
-            turn(player1);
-            turn(player2);
-        }
-
-
-    }
-
-
-    public class Player {
-
-        private CheckerColor checkerColor;
-        private Socket playerSocket;
-        private PrintWriter out;
-        private Prompt prompt;
-        private String name;
-        private PrintStream printStream;
-        private Set<String> playerCheckersOptions;
-
-
-
-        public Player(Socket socket, CheckerColor checkerColor) {
-            try {
-                this.checkerColor = checkerColor;
-                this.playerSocket = socket;
-                this.printStream = new PrintStream(this.playerSocket.getOutputStream()); // to print messages to the player terminal
-                this.out = new PrintWriter(this.playerSocket.getOutputStream(), true);
-                this.prompt = new Prompt(this.playerSocket.getInputStream(), printStream);
-                this.playerCheckersOptions = new HashSet<>();
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        public void receiveCheckers() {
-            int row = 0;
-            String col = "";
-            for (Checker checker : allCheckers) {
-                if (checker.getCheckerColor().equals(this.checkerColor.getColor())) {
-                    row = checker.getRow() + 1;
-                    col = BoardPosition.colToString(checker.getCol());
-                    this.playerCheckersOptions.add(col + row);
+                        }
+                    }
                 }
             }
         }
 
-        public synchronized void setName() {
-            StringInputScanner question1 = new StringInputScanner();
-            question1.setMessage("whats your name" + "\n");
-            String name = prompt.getUserInput(question1);
-            this.name = name;
-            System.out.println(name);
+
+
+
+          /*  for (Checker check : allCheckers) {
+
+                // check if the checker is on the boarder
+                if (checker.getCol() + 1 < Board.BOARD_LENGHT && checker.getRow() + 1 < Board.BOARD_LENGHT) {
+
+                    //check if next position is occupied
+                    if (check.getCol() == checker.getCol() + 1 && check.getRow() == checker.getRow() + 1) {
+
+                        //check if it's from your team
+                        if (!check.getCheckerColor().equals(checker.getCheckerColor())) {
+
+                            //check if the next position is inside the boarder
+                            if (checker.getCol() + 2 < Board.BOARD_LENGHT && checker.getRow() + 2 < Board.BOARD_LENGHT || check.getCol() == checker.getCol() + 2 && check.getRow() == checker.getRow() + 2) {
+
+                            }
+
+                             {
+
+
+
+                             }
+                        }
+
+                    } else {
+                        count++;
+                    }
+
+                }else if (checker.getCol() - 1 >= 0 && checker.getRow() + 1 < Board.BOARD_LENGHT) {
+
+                }
+
+            }*/
+
+
+                } else{
+
+                }
+
+
+            }
+
+            public void turn (Player player){
+                player.receiveCheckers();
+                Checker checker = StringToChecker(player.chooseChecker());
+                Set<String> availableMoves = availableMoves(checker);
+
+                player.chooseNewPosition(availableMoves);
+
+                moveChecker(checker);
+                gameBoard.setPieces(allCheckers);
+                gameBoard.draw();
+            }
+
+
+            @Override
+            public void run () {
+                System.err.println("INITIATING GAME");
+                player1.setName();
+                player2.setName();
+                init();
+
+                while (!gameOver) {
+                    turn(player1);
+                    turn(player2);
+                }
+
+
+            }
+
+
+            public class Player {
+
+                private CheckerColor checkerColor;
+                private Socket playerSocket;
+                private PrintWriter out;
+                private Prompt prompt;
+                private String name;
+                private PrintStream printStream;
+                private Set<String> playerCheckersOptions;
+
+
+                public Player(Socket socket, CheckerColor checkerColor) {
+                    try {
+                        this.checkerColor = checkerColor;
+                        this.playerSocket = socket;
+                        this.printStream = new PrintStream(this.playerSocket.getOutputStream()); // to print messages to the player terminal
+                        this.out = new PrintWriter(this.playerSocket.getOutputStream(), true);
+                        this.prompt = new Prompt(this.playerSocket.getInputStream(), printStream);
+                        this.playerCheckersOptions = new HashSet<>();
+
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                public void receiveCheckers() {
+                    int row = 0;
+                    String col = "";
+                    for (Checker checker : allCheckers) {
+                        if (checker.getCheckerColor().equals(this.checkerColor.getColor())) {
+                            row = checker.getRow() + 1;
+                            col = BoardPosition.colToString(checker.getCol());
+                            this.playerCheckersOptions.add(col + row);
+                        }
+                    }
+                }
+
+                public synchronized void setName() {
+                    StringInputScanner question1 = new StringInputScanner();
+                    question1.setMessage("whats your name" + "\n");
+                    String name = prompt.getUserInput(question1);
+                    this.name = name;
+                    System.out.println(name);
+                }
+
+                public String chooseChecker() {
+                    StringSetInputScanner question = new StringSetInputScanner(playerCheckersOptions);
+                    question.setError("You don't have a checker in that position");
+                    out.print("Your turn " + name + "?" + "\n");
+                    question.setMessage("Which checker do you want to move?" + "\n");
+                    String checkerSelected = prompt.getUserInput(question);
+                    return checkerSelected;
+                }
+
+                public String chooseNewPosition(Set<String> movesAvailable) {
+                    StringSetInputScanner question = new StringSetInputScanner(movesAvailable);
+                    question.setError("You can't make that move");
+                    question.setMessage("What is your new position?" + "\n");
+                    String newPosition = prompt.getUserInput(question);
+                    return newPosition;
+                }
+
+
+            }
+
         }
-
-        public String chooseChecker() {
-            StringSetInputScanner question = new StringSetInputScanner(playerCheckersOptions);
-            question.setError("You don't have a checker in that position");
-            out.print("Your turn " + name + "?" + "\n");
-            question.setMessage("Which checker do you want to move?" + "\n");
-            String checkerSelected = prompt.getUserInput(question);
-            return checkerSelected;
-        }
-
-        public String chooseNewPosition(Set<String> movesAvailable) {
-            StringSetInputScanner question = new StringSetInputScanner(movesAvailable);
-            question.setError("You can't make that move");
-            question.setMessage("What is your new position?" + "\n");
-            String newPosition = prompt.getUserInput(question);
-            return newPosition;
-        }
-
-
-    }
-
-}
