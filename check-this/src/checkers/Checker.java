@@ -21,6 +21,10 @@ public abstract class Checker implements CheckerState {
         return row;
     }
 
+    public int getBoardRow(){
+        return row + 1;
+    }
+
     public void setCol(int col) {
         this.col = col;
     }
