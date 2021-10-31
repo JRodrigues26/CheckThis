@@ -76,7 +76,16 @@ public class Game implements Runnable {
     }
 
     public Set<String> availableMoves(Checker checker) {
-        Set<String> availableMoves = new HashSet<>();
+      quals(checker.getCheckerColor())) {
+
+                            //check if the next position is inside the boarder
+                            if (checker.getCol() + 2 < Board.BOARD_LENGHT && checker.getRow() + 2 < Board.BOARD_LENGHT || check.getCol() == checker.getCol() + 2 && check.getRow() == checker.getRow() + 2) {
+
+                            }
+
+                             {
+
+  Set<String> availableMoves = new HashSet<>();
         String option1;
         String option2;
         int count = 0;
@@ -115,16 +124,7 @@ public class Game implements Runnable {
                     if (check.getCol() == checker.getCol() + 1 && check.getRow() == checker.getRow() + 1) {
 
                         //check if it's from your team
-                        if (!check.getCheckerColor().equals(checker.getCheckerColor())) {
-
-                            //check if the next position is inside the boarder
-                            if (checker.getCol() + 2 < Board.BOARD_LENGHT && checker.getRow() + 2 < Board.BOARD_LENGHT || check.getCol() == checker.getCol() + 2 && check.getRow() == checker.getRow() + 2) {
-
-                            }
-
-                             {
-
-
+                        if (!check.getCheckerColor().e
 
                              }
                         }
@@ -142,7 +142,6 @@ public class Game implements Runnable {
 
                 } else{
 
-                }
 
 
             }
