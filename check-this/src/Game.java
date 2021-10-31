@@ -2,6 +2,8 @@ import checkers.BlackChecker;
 import checkers.Checker;
 import checkers.WhiteChecker;
 
+
+import java.io.IOException;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.concurrent.ExecutorService;
@@ -11,23 +13,22 @@ public class Game implements Runnable {
 
     private Player player1;
     private Player player2;
-    private ExecutorService playersPool;
     private Board gameBoard;
-    private boolean playerTurn;
     private boolean gameOver = false;
     private LinkedList<Checker> player1Checkers;
     private LinkedList<Checker> player2Checkers;
 
 
+
+
     public Game(Socket player1S, Socket player2S) {
-        System.err.println("GAME STARTING");
-        playerTurn = false;
-        playersPool = Executors.newCachedThreadPool();
-        player1 = new Player(player1S, this.gameBoard);
-        player2 = new Player(player2S, this.gameBoard);
-        gameBoard = new Board();
+        System.err.println("CREATING NEW GAME");
+        player1 = new Player(player1S);
+        player2 = new Player(player2S);
+        gameBoard = new Board(player1S, player2S);
         player1Checkers = new LinkedList<>();
         player2Checkers = new LinkedList<>();
+
         addCheckers();
     }
 
@@ -54,20 +55,31 @@ public class Game implements Runnable {
         gameBoard.draw();
     }
 
-    public void movePiece(Checker checker){
+    public void sendMessage(){
+
+    }
+
+    public void movePiece(Player player) {
+        String checkerChosen;
+        String checkerMove;
+        checkerChosen = player.choseChecker();
+        //pass a set with the possibility
+        checkerChosen = player.moveChecker();
 
     }
 
 
     @Override
     public void run() {
-        init();
-        while (!gameOver) {
+            System.err.println("INITIATING GAME");
+            player1.setName();
+            player2.setName();
 
-            playersPool.submit(player1);
-            playersPool.submit(player2);
+            init();
 
-        }
-
+            while (!gameOver) {
+                movePiece(player1);
+                movePiece(player2);
+            }
     }
 }

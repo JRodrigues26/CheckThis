@@ -10,7 +10,6 @@ import java.util.concurrent.Executors;
 
 public class Server {
 
-    private Board board = new Board();
     private ServerSocket serverSocket;
     private Socket clientSocket;
     private LinkedList<Socket> clientsSockets;
@@ -40,7 +39,6 @@ public class Server {
             if ((clientsSockets.size() % 2) == 0) {
                 System.err.println("WE CAN NOW START A NEW GAME");
                 gamePool.submit(new Game(clientsSockets.get(clientsSockets.size()-1), clientsSockets.get(clientsSockets.size()-2)));
-                gameStart();
 
             }else {
                 try {
@@ -65,14 +63,4 @@ public class Server {
             e.printStackTrace();
         }
     }
-
-    public void gameStart() throws IOException {
-
-        Prompt prompt = new Prompt(System.in, System.out);
-
-
-
-    }
-
-
 }
