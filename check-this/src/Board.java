@@ -19,9 +19,9 @@ public class Board {
 
     public Board(Socket player1, Socket player2) {
         try {
+
             player1Socket = player1;
             player2Socket = player2;
-
             p1printWriter = new PrintWriter(player1Socket.getOutputStream(), true);
             p2printWriter = new PrintWriter(player2Socket.getOutputStream(), true);
 
@@ -33,9 +33,11 @@ public class Board {
                     paint++;
                     if (!(paint % 2 == 0)) {
                         board[col][row] = Colors.RED_BACKGROUND + "   " + Colors.RESET;
-                    }
-                    board[col][row] = Colors.WHITE_BACKGROUND_BRIGHT + "   " + Colors.RESET;
+                    } else {
+                        board[col][row] = Colors.WHITE_BACKGROUND_BRIGHT + "   " + Colors.RESET;
 
+
+                    }
                 }
             }
         } catch (IOException e) {

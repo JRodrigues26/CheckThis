@@ -2,9 +2,8 @@ import checkers.BlackChecker;
 import checkers.Checker;
 import checkers.WhiteChecker;
 
-import java.io.BufferedWriter;
+
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.concurrent.ExecutorService;

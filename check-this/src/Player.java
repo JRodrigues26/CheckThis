@@ -34,12 +34,6 @@ public class Player {
         System.out.println(name);
     }
 
-    public String newCoordinates(){
-
-    }
-
-
-
     public void play() {
         StringInputScanner question = new StringInputScanner();
         question.setMessage("Your turn " + name + "?" + "\n");
