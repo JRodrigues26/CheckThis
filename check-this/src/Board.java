@@ -59,6 +59,10 @@ public class Board {
         }
     }
 
+    public String[][] getBoardPositions(){
+        return board;
+    }
+
 
     public void println(String line) {
         p1printWriter.println(line);
