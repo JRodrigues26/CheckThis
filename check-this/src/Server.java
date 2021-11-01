@@ -1,3 +1,6 @@
+import org.academiadecodigo.bootcamp.Prompt;
+import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -6,6 +9,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server {
+
 
     private ServerSocket serverSocket;
     private Socket clientSocket;
@@ -28,13 +32,15 @@ public class Server {
     }
 
 
-    public void openServer() {
+    public void openServer() throws IOException {
         while (true) {
 
             waitForClients();
             if ((clientsSockets.size() % 2) == 0) {
                 System.err.println("WE CAN NOW START A NEW GAME");
                 gamePool.submit(new Game(clientsSockets.get(clientsSockets.size()-1), clientsSockets.get(clientsSockets.size()-2)));
+                gameStart();
+
             }else {
                 try {
                     PrintWriter out = new PrintWriter(this.clientSocket.getOutputStream(), true);
@@ -57,6 +63,14 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void gameStart() throws IOException {
+
+        Prompt prompt = new Prompt(System.in, System.out);
+
+
+
     }
 
 
