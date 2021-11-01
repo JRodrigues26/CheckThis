@@ -6,8 +6,5 @@ public class WhiteChecker extends Checker{
         super(CheckerColor.WHITE, x, y);
     }
 
-    @Override
-    public void move() {
 
-    }
 }

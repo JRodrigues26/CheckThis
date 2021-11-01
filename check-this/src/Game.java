@@ -214,9 +214,11 @@ public class Game implements Runnable {
 
     public void turn(Player player) {
         Checker checker = null;
+        String oldPosition ="";
         while (availableMoves.size() == 0) {
             player.receiveCheckers();
             checker = StringToChecker(player.chooseChecker());
+            oldPosition = BoardPosition.colToString(checker.getCol()) + checker.getBoardRow();
             availableMoves(checker);
         }
 
@@ -227,6 +229,8 @@ public class Game implements Runnable {
         player2.sendMessage("");
         gameBoard.draw();
         availableMoves.clear();
+        player1.sendMessage(player.getName().toUpperCase() + " MOVED PIECE FROM " + oldPosition + " TO " + newPosition + "\n");
+        player2.sendMessage(player.getName().toUpperCase() + " MOVED PIECE FROM " + oldPosition + " TO " + newPosition + "\n");
     }
 
     public void verifyGameOver(){
@@ -287,6 +291,10 @@ public class Game implements Runnable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+
+        public String getName() {
+            return name;
         }
 
         public void sendMessage(String string){
