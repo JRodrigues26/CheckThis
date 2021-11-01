@@ -6,8 +6,5 @@ public class KingChecker extends Checker {
         super(color, x, y);
     }
 
-    @Override
-    public void move() {
 
-    }
 }

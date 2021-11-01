@@ -63,7 +63,6 @@ public class Board {
         return board;
     }
 
-
     public void println(String line) {
         p1printWriter.println(line);
         p2printWriter.println(line);

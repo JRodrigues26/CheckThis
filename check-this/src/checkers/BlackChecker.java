@@ -10,9 +10,5 @@ public class BlackChecker extends Checker {
     }
 
 
-    @Override
-    public void move() {
 
-
-    }
 }

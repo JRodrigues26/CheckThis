@@ -37,7 +37,7 @@ public abstract class Checker implements CheckerState {
         return this.checkerColor;
     }
 
-    public abstract void move();
+
 
 
     //---// Interface Checker States //---//
