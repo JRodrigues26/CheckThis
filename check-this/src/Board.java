@@ -26,9 +26,7 @@ public class Board {
             p2printWriter = new PrintWriter(player2Socket.getOutputStream(), true);
 
             int paint = 0;
-
             board = new String[BOARD_LENGHT][BOARD_LENGHT];
-
             for (int col = 0; col < BOARD_LENGHT; col++) {
                 paint++;
                 for (int row = 0; row < BOARD_LENGHT; row++) {
