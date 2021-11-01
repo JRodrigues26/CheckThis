@@ -21,6 +21,7 @@ public class Game implements Runnable {
     private LinkedList<Checker> allCheckers;
     private Set<String> availableMoves;
 
+
     public Game(Socket player1S, Socket player2S) {
         System.err.println("CREATING NEW GAME");
         player1 = new Player(player1S, CheckerColor.WHITE);
@@ -63,20 +64,20 @@ public class Game implements Runnable {
         return null;
     }
 
-    public void moveChecker(Checker checker) {
+    public void moveChecker(String newPosition, Checker checker) {
+
+       int col = BoardPosition.stringToCol(newPosition.split("")[0]);
+       int row = Integer.parseInt(newPosition.split("")[1]) - 1;
 
         for (Checker checkthis : allCheckers) {
-            if (checker.getCol() == checkthis.getCol() && checker.getRow() == checkthis.getRow()) {
-                if (checker.getCheckerColor().equals(CheckerColor.WHITE.getColor())) /*Move White checkers*/ {
-                    checkthis.setCol(checkthis.getCol() + 1);
-                    checkthis.setRow(checkthis.getRow() + 1);
-                } else { /*Move Black checkers*/
-                    checkthis.setCol(checkthis.getCol() - 1);
-                    checkthis.setRow(checkthis.getRow() - 1);
-                }
+            if (checkthis.getCol() == checker.getCol() && checkthis.getRow() == checker.getRow()) {
+             checkthis.setCol(col);
+             checkthis.setRow(row);
             }
         }
+
     }
+
 
     public void availableMoves(Checker checker) {
         String[][] boardPositions = gameBoard.getBoardPositions();
@@ -84,29 +85,38 @@ public class Game implements Runnable {
 
         //Verify if it if white
         if (checker.getCheckerColor().equals(CheckerColor.WHITE.getColor())) {
-            System.out.println("1");
+
             //check if the next position x+1 y+1 is inside the board
             if (checker.getCol() + 1 < Board.BOARD_LENGHT && checker.getRow() + 1 < Board.BOARD_LENGHT) {
-                System.out.println("2");
+
                 if (boardPositions[checker.getCol() + 1][checker.getRow() + 1].equals(Colors.RED_BACKGROUND + "   " + Colors.RESET)) {
-                    System.out.println("3");
+
                     row = checker.getBoardRow() + 1;
                     availableMoves.add(BoardPosition.colToString(checker.getCol() + 1) + row);
 
                     //check if the next position x+2 y+2 is available
                 } else if (boardPositions[checker.getCol() + 1][checker.getRow() + 1].equals(Colors.RED_BACKGROUND + " B " + Colors.RESET)) {
-                    System.out.println("4");
+
                     if (checker.getCol() + 2 < Board.BOARD_LENGHT && checker.getRow() + 2 < Board.BOARD_LENGHT) {
-                        System.out.println("5");
+
                         if (boardPositions[(checker.getCol() + 2)][(checker.getRow() + 2)].equals(Colors.RED_BACKGROUND + "   " + Colors.RESET)) {
-                            System.out.println("6");
+
+                            for (Checker deadChecker : allCheckers) {
+                                if (deadChecker.getCol() == checker.getCol() + 1 && deadChecker.getRow() == checker.getRow() + 1) {
+
+                                    allCheckers.remove(deadChecker);
+                                    break;
+                                }
+                            }
+
                             row = checker.getBoardRow() + 2;
+                            availableMoves.clear();
                             availableMoves.add(BoardPosition.colToString(checker.getCol() + 2) + row);
                         }
                     }
                 }
             }
-           //check if the next position x-1 y+1 is inside the board
+            //check if the next position x-1 y+1 is inside the board
             if (checker.getCol() - 1 >= 0 && checker.getRow() + 1 < Board.BOARD_LENGHT) {
                 if (boardPositions[checker.getCol() - 1][checker.getRow() + 1].equals(Colors.RED_BACKGROUND + "   " + Colors.RESET)) {
                     row = checker.getBoardRow() + 1;
@@ -116,7 +126,18 @@ public class Game implements Runnable {
 
                     if (checker.getCol() - 2 >= 0 && checker.getRow() + 1 < Board.BOARD_LENGHT) {
                         if (boardPositions[checker.getCol() - 2][checker.getRow() + 2].equals(Colors.RED_BACKGROUND + "   " + Colors.RESET)) {
+
+
+                            for (Checker deadChecker : allCheckers) {
+                                if (deadChecker.getCol() == checker.getCol() - 1 && deadChecker.getRow() == checker.getRow() + 1) {
+
+                                    allCheckers.remove(deadChecker);
+                                    break;
+                                }
+                            }
+
                             row = checker.getBoardRow() + 2;
+                            availableMoves.clear();
                             availableMoves.add(BoardPosition.colToString(checker.getCol() - 2) + row);
                         }
                     }
@@ -127,32 +148,41 @@ public class Game implements Runnable {
 
             //check if the next position x+1 y-1 is available
             if (checker.getCol() + 1 < Board.BOARD_LENGHT && checker.getRow() - 1 >= 0) {
-                System.out.println("2");
+
                 if (boardPositions[checker.getCol() + 1][checker.getRow() - 1].equals(Colors.RED_BACKGROUND + "   " + Colors.RESET)) {
-                    System.out.println("3");
+
                     row = checker.getBoardRow() - 1;
                     availableMoves.add(BoardPosition.colToString(checker.getCol() + 1) + row);
 
                     //check if the next position x+2 y-2 is available
                 } else if (boardPositions[checker.getCol() + 1][checker.getRow() - 1].equals(Colors.RED_BACKGROUND + " W " + Colors.RESET)) {
-                    System.out.println("4");
+
                     if (checker.getCol() + 2 < Board.BOARD_LENGHT && checker.getRow() - 2 >= 0) {
-                        System.out.println("5");
+
                         if (boardPositions[(checker.getCol() + 2)][(checker.getRow() - 2)].equals(Colors.RED_BACKGROUND + "   " + Colors.RESET)) {
-                            System.out.println("6");
+
+                            for (Checker deadChecker : allCheckers) {
+                                if (deadChecker.getCol() == checker.getCol() + 1 && deadChecker.getRow() == checker.getRow() - 1) {
+
+                                    allCheckers.remove(deadChecker);
+                                    break;
+                                }
+                            }
+
                             row = checker.getBoardRow() - 2;
+                            availableMoves.clear();
                             availableMoves.add(BoardPosition.colToString(checker.getCol() + 2) + row);
                         }
                     }
                 }
             }
             //check if the next position x-1 y+1 is inside the board
-            System.out.println("cheguei 1");
+
             if (checker.getCol() - 1 >= 0 && checker.getRow() - 1 >= 0) {
-                System.out.println("cheguei 2");
+
 
                 if (boardPositions[checker.getCol() - 1][checker.getRow() - 1].equals(Colors.RED_BACKGROUND + "   " + Colors.RESET)) {
-                    System.out.println("cheguei 3");
+
                     row = checker.getBoardRow() - 1;
                     availableMoves.add(BoardPosition.colToString(checker.getCol() - 1) + row);
                     //check if the next position x-2 y+2 is available
@@ -160,14 +190,23 @@ public class Game implements Runnable {
 
                     if (checker.getCol() - 2 >= 0 && checker.getRow() - 2 >= 0) {
                         if (boardPositions[checker.getCol() - 2][checker.getRow() - 2].equals(Colors.RED_BACKGROUND + "   " + Colors.RESET)) {
+
+                            for (Checker deadChecker : allCheckers) {
+                                if (deadChecker.getCol() == checker.getCol() - 1 && deadChecker.getRow() == checker.getRow() - 1) {
+
+                                    allCheckers.remove(deadChecker);
+                                    break;
+                                }
+                            }
+
+
                             row = checker.getBoardRow() - 2;
+                            availableMoves.clear();
                             availableMoves.add(BoardPosition.colToString(checker.getCol() - 2) + row);
                         }
                     }
                 }
             }
-            System.out.println("cheguei ao fim");
-
 
 
         }
@@ -181,12 +220,30 @@ public class Game implements Runnable {
             availableMoves(checker);
         }
 
-        player.chooseNewPosition(availableMoves);
-        moveChecker(checker);
+        String newPosition = player.chooseNewPosition(availableMoves);
+        moveChecker(newPosition, checker);
         gameBoard.setPieces(allCheckers);
+        player1.sendMessage("");
+        player2.sendMessage("");
         gameBoard.draw();
+        availableMoves.clear();
     }
 
+    public void verifyGameOver(){
+        for(Checker checker : allCheckers){
+            if(checker.getCheckerColor().equals(CheckerColor.WHITE.getColor()) && checker.getRow() == Board.BOARD_LENGHT){
+                player1.sendMessage("YOU WON");
+                player2.sendMessage("YOU LOSE");
+                gameOver = true;
+            } else if (checker.getCheckerColor().equals(CheckerColor.BLACK.getColor()) && checker.getRow() == 0){
+                player1.sendMessage("YOU LOSE");
+                player2.sendMessage("YOU WON");
+                gameOver = true;
+            }
+
+
+        }
+    }
 
     @Override
     public void run() {
@@ -196,8 +253,10 @@ public class Game implements Runnable {
         init();
 
         while (!gameOver) {
-            turn(player2);
             turn(player1);
+            verifyGameOver();
+            turn(player2);
+            verifyGameOver();
         }
 
 
@@ -230,6 +289,10 @@ public class Game implements Runnable {
             }
         }
 
+        public void sendMessage(String string){
+            this.out.println(string);
+        }
+
         public void receiveCheckers() {
             int row = 0;
             String col = "";
@@ -247,6 +310,8 @@ public class Game implements Runnable {
             question1.setMessage("whats your name" + "\n");
             String name = prompt.getUserInput(question1);
             this.name = name;
+            this.out.println();
+            this.out.println("Your team is:" + checkerColor.getColor() + "\n");
             System.out.println(name);
         }
 
@@ -256,8 +321,7 @@ public class Game implements Runnable {
             }
             StringSetInputScanner question = new StringSetInputScanner(playerCheckersOptions);
             question.setError("You don't have a checker in that position");
-            out.print("Your turn " + name + "?" + "\n");
-            question.setMessage("Which checker do you want to move?" + "\n");
+            question.setMessage(this.name + ": Choose a valid checker you want to move?" + "\n");
             String checkerSelected = prompt.getUserInput(question);
             return checkerSelected;
         }
@@ -269,11 +333,10 @@ public class Game implements Runnable {
             }
             StringSetInputScanner question = new StringSetInputScanner(movesAvailable);
             question.setError("You can't make that move");
-            question.setMessage("What is your new position?" + "\n");
+            question.setMessage("Where do you want to move?" + "\n");
             String newPosition = prompt.getUserInput(question);
             return newPosition;
         }
-
 
     }
 
