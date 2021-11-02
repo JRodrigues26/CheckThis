@@ -20,6 +20,7 @@ public class Server {
         try {
 
             System.err.println("SERVER OPEN");
+            System.err.println("Port number: " + port);
             serverSocket = new ServerSocket(port);
             clientsSockets = new LinkedList<>();
             gamePool = Executors.newCachedThreadPool();

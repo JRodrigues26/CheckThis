@@ -2,11 +2,13 @@ import java.io.IOException;
 
 public class Main {
 
-    private static final int DEFAULT_PORT = 55555;
+    private static final int DEFAULT_PORT = 8080;
 
     public static void main(String[] args) throws IOException {
 
-        Server testServer = new Server(DEFAULT_PORT);
+        int port = args.length > 0 ? Integer.parseInt(args[0]) : DEFAULT_PORT;
+
+        Server testServer = new Server(port);
 
         testServer.openServer();
 

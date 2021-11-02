@@ -20,6 +20,8 @@ public class Game implements Runnable {
     private boolean gameOver = false;
     private LinkedList<Checker> allCheckers;
     private Set<String> availableMoves;
+    private int countW = 12;
+    private int countB = 12;
 
 
     public Game(Socket player1S, Socket player2S) {
@@ -66,13 +68,13 @@ public class Game implements Runnable {
 
     public void moveChecker(String newPosition, Checker checker) {
 
-       int col = BoardPosition.stringToCol(newPosition.split("")[0]);
-       int row = Integer.parseInt(newPosition.split("")[1]) - 1;
+        int col = BoardPosition.stringToCol(newPosition.split("")[0]);
+        int row = Integer.parseInt(newPosition.split("")[1]) - 1;
 
         for (Checker checkthis : allCheckers) {
             if (checkthis.getCol() == checker.getCol() && checkthis.getRow() == checker.getRow()) {
-             checkthis.setCol(col);
-             checkthis.setRow(row);
+                checkthis.setCol(col);
+                checkthis.setRow(row);
             }
         }
 
@@ -105,6 +107,7 @@ public class Game implements Runnable {
                                 if (deadChecker.getCol() == checker.getCol() + 1 && deadChecker.getRow() == checker.getRow() + 1) {
 
                                     allCheckers.remove(deadChecker);
+                                    countB--;
                                     break;
                                 }
                             }
@@ -132,6 +135,7 @@ public class Game implements Runnable {
                                 if (deadChecker.getCol() == checker.getCol() - 1 && deadChecker.getRow() == checker.getRow() + 1) {
 
                                     allCheckers.remove(deadChecker);
+                                    countB--;
                                     break;
                                 }
                             }
@@ -165,6 +169,7 @@ public class Game implements Runnable {
                                 if (deadChecker.getCol() == checker.getCol() + 1 && deadChecker.getRow() == checker.getRow() - 1) {
 
                                     allCheckers.remove(deadChecker);
+                                    countW--;
                                     break;
                                 }
                             }
@@ -195,6 +200,7 @@ public class Game implements Runnable {
                                 if (deadChecker.getCol() == checker.getCol() - 1 && deadChecker.getRow() == checker.getRow() - 1) {
 
                                     allCheckers.remove(deadChecker);
+                                    countW--;
                                     break;
                                 }
                             }
@@ -214,7 +220,7 @@ public class Game implements Runnable {
 
     public void turn(Player player) {
         Checker checker = null;
-        String oldPosition ="";
+        String oldPosition = "";
         while (availableMoves.size() == 0) {
             player.receiveCheckers();
             checker = StringToChecker(player.chooseChecker());
@@ -233,20 +239,30 @@ public class Game implements Runnable {
         player2.sendMessage(player.getName().toUpperCase() + " MOVED PIECE FROM " + oldPosition + " TO " + newPosition + "\n");
     }
 
-    public void verifyGameOver(){
-        for(Checker checker : allCheckers){
-            if(checker.getCheckerColor().equals(CheckerColor.WHITE.getColor()) && checker.getRow() == Board.BOARD_LENGHT){
-                player1.sendMessage("YOU WON");
-                player2.sendMessage("YOU LOSE");
-                gameOver = true;
-            } else if (checker.getCheckerColor().equals(CheckerColor.BLACK.getColor()) && checker.getRow() == 0){
-                player1.sendMessage("YOU LOSE");
-                player2.sendMessage("YOU WON");
-                gameOver = true;
+    public void verifyGameOver() {
+        if (countB == 0) {
+            player1.sendMessage("YOU WON");
+            player2.sendMessage("YOU LOSE");
+            gameOver = true;
+        } else if (countW == 0) {
+            player1.sendMessage("YOU LOSE");
+            player2.sendMessage("YOU WON");
+            gameOver = true;
+        } else {
+            for (Checker checker : allCheckers) {
+                if (checker.getCheckerColor().equals(CheckerColor.WHITE.getColor()) && checker.getRow() == Board.BOARD_LENGHT) {
+                    player1.sendMessage("YOU WON");
+                    player2.sendMessage("YOU LOSE");
+                    gameOver = true;
+                } else if (checker.getCheckerColor().equals(CheckerColor.BLACK.getColor()) && checker.getRow() == 0) {
+                    player1.sendMessage("YOU LOSE");
+                    player2.sendMessage("YOU WON");
+                    gameOver = true;
+                }
             }
-
-
         }
+
+
     }
 
     @Override
@@ -261,6 +277,13 @@ public class Game implements Runnable {
             verifyGameOver();
             turn(player2);
             verifyGameOver();
+        }
+
+        try {
+            player1.getPlayerSocket().close();
+            player2.getPlayerSocket().close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
 
@@ -297,7 +320,11 @@ public class Game implements Runnable {
             return name;
         }
 
-        public void sendMessage(String string){
+        public Socket getPlayerSocket() {
+            return playerSocket;
+        }
+
+        public void sendMessage(String string) {
             this.out.println(string);
         }
 
@@ -324,9 +351,6 @@ public class Game implements Runnable {
         }
 
         public String chooseChecker() {
-            for (String string : playerCheckersOptions) {
-                System.out.println(string);
-            }
             StringSetInputScanner question = new StringSetInputScanner(playerCheckersOptions);
             question.setError("You don't have a checker in that position");
             question.setMessage(this.name + ": Choose a valid checker you want to move?" + "\n");
