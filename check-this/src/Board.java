@@ -74,6 +74,7 @@ public class Board {
     }
 
     public void draw() {
+        System.out.println();
         System.out.println("   A  B  C  D  E  F  G  H");
         println("   A  B  C  D  E  F  G  H");
 
